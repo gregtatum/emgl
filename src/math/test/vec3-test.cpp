@@ -1,6 +1,7 @@
-#include "../catch.hpp"
-#include "../../src/math/mat4.cpp"
-#include "../../src/math/vec3.cpp"
+#ifdef RUN_TESTS
+#include "test/head.h"
+#include "math/mat4.h"
+#include "math/vec3.h"
 
 TEST_CASE( "add", "emgl::vec3" ) {
   float out[3] = {0.0, 0.0, 0.0};
@@ -58,3 +59,4 @@ TEST_CASE( "transformMat4", "emgl::vec3" ) {
 
   REQUIRE( shallowEquals(3, out, result) );
 }
+#endif

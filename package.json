@@ -4,8 +4,8 @@
   "description": "An emscripten WebGL experiment",
   "main": "index.js",
   "scripts": {
-    "watch:test": "watch 'clear && echo \"Compiling test...\" && npm t' ./test ./src",
-    "test": "g++ ./test/main.cpp -o ./build/test && ./build/test",
+    "test": "make 'CFLAGS=-D RUN_TESTS' && ./bin/emgl",
+    "watch:test": "watch 'clear && echo \"Compiling test...\" && npm t' ./src",
     "dev": "watch 'clear && echo 'Compiling...' && emcc src/main.cpp -o build/.temp.js && cat build/.temp.js | node' ./src",
     "build": "emcc src/main.cpp -o assets/build.emcc.js"
   },

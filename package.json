@@ -4,10 +4,11 @@
   "description": "An emscripten WebGL experiment",
   "main": "index.js",
   "scripts": {
-    "test": "make 'CFLAGS=-D RUN_TESTS' && ./bin/emgl",
+    "test": "make test && cat ./bin/test.js | node",
     "watch:test": "watch 'clear && echo \"Compiling test...\" && npm t' ./src",
-    "dev": "watch 'clear && echo 'Compiling...' && emcc src/main.cpp -o build/.temp.js && cat build/.temp.js | node' ./src",
-    "build": "emcc src/main.cpp -o assets/build.emcc.js"
+    "dev2": "watch 'clear; echo 'Compiling...' && npm run build && cat bin/emgl.js | node' ./src",
+    "dev": "watch 'clear; echo Compiling... && npm run build'",
+    "build": "make"
   },
   "author": "Greg Tatum",
   "license": "MIT",

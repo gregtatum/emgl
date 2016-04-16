@@ -1,6 +1,9 @@
+#include <GLES2/gl2.h>
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #include "./canvas.h"
+#include <iostream>
+#include <vector>
 
 EMSCRIPTEN_WEBGL_CONTEXT_HANDLE emgl::canvas::init() {
   // Set up the attributes for the context
@@ -19,5 +22,7 @@ EMSCRIPTEN_WEBGL_CONTEXT_HANDLE emgl::canvas::init() {
   // Create the context
   EMSCRIPTEN_WEBGL_CONTEXT_HANDLE gl = emscripten_webgl_create_context(0, &attrs);
   emscripten_webgl_make_context_current(gl);
+
+
   return gl;
 }

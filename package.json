@@ -7,7 +7,7 @@
     "test": "make test && cat ./bin/test.js | node",
     "watch:test": "watch 'clear && echo \"Compiling test...\" && npm t' ./src",
     "dev2": "watch 'clear; echo 'Compiling...' && npm run build && cat bin/emgl.js | node' ./src",
-    "dev": "watch 'clear; echo Compiling... && npm run build'",
+    "dev": "watch 'clear; echo Compiling... && npm run build' ./src",
     "build": "make"
   },
   "author": "Greg Tatum",

@@ -4,8 +4,40 @@
 #include "math/vec3.h"
 #include "math/mat4.h"
 #include "canvas.h"
+#include "gl/shaders.h"
+#include "gl/points.h"
+
+char * readFile(char path[]) {
+  FILE *filePointer = fopen(path , "rb");
+  if(!filePointer) {
+    perror("src/shaders/hello.vert");
+    // return 0;
+  }
+
+  // Get the length of the file
+  fseek(filePointer, 0L, SEEK_END);
+  long fileSize = ftell(filePointer);
+  rewind(filePointer);
+
+  char *fileContents = new char[fileSize + 1];
+
+  /* copy the file into the fileContents */
+  if( fread(fileContents , fileSize, 1, filePointer) != 1 ) {
+    fclose(filePointer);
+    // free(fileContents);
+    fputs("read file failed", stderr);
+    // return 0;
+  }
+
+  fileContents[fileSize] = 0;
+
+  fclose(filePointer);
+  return fileContents;
+}
 
 int main() {
+
+
   float mat[16];
   float a[3] = {10.0,200.0,30.0};
 
@@ -16,6 +48,7 @@ int main() {
     var div = document.createElement("div");
     document.body.appendChild(div);
     var ghost = document.createElement("div");
+    document.body.appendChild(ghost);
     document.body.appendChild(ghost);
 
     var matrix = toFloatArray(16, $0);
@@ -49,6 +82,13 @@ int main() {
   }, mat);
 
   emgl::canvas::init();
+  const char *path = "src/shaders/hello.vert";
+  emgl::gl::createShaderFromPath(path);
+
+  emgl::gl::Buffer points = emgl::gl::makePoints();
+  printf("Buffer: %u\n", points.buffer);
+
+  // delete [] path;
 
   return 0;
 }

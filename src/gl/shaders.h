@@ -6,6 +6,7 @@ namespace emgl { namespace gl {
     char* contents;
   };
   getSourceCodeResult getSourceCode(char const *path);
-  GLuint createShader(char const *source);
-  GLuint createShaderFromPath(char const *path);
+  GLuint createShader(GLenum type, char const *source);
+  GLuint createShaderFromPath(GLenum type, char const *path);
+  GLuint createProgram(char const *vertexPath, char const *fragmentPath);
 }}

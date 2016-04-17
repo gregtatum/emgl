@@ -4,9 +4,9 @@
 
 using namespace emgl::gl;
 
-GLuint emgl::gl::createShader(char const *source) {
+GLuint emgl::gl::createShader(GLenum type, char const *source) {
   // Create and compile the shader
-  GLuint shader = glCreateShader(GL_VERTEX_SHADER);
+  GLuint shader = glCreateShader(type);
   glShaderSource(shader, 1, &source, NULL);
   glCompileShader(shader);
 
@@ -61,7 +61,7 @@ getSourceCodeResult emgl::gl::getSourceCode(char const path[]) {
   return result;
 }
 
-GLuint emgl::gl::createShaderFromPath(char const *path) {
+GLuint emgl::gl::createShaderFromPath(GLenum type, char const *path) {
   // Grab the source code
   getSourceCodeResult sourceCodeResult = emgl::gl::getSourceCode(path);
   if(sourceCodeResult.error) {
@@ -69,7 +69,33 @@ GLuint emgl::gl::createShaderFromPath(char const *path) {
   }
 
   // Create the shader
-  GLuint shader = emgl::gl::createShader(sourceCodeResult.contents);
+  GLuint shader = emgl::gl::createShader(type, sourceCodeResult.contents);
   delete [] sourceCodeResult.contents;
   return shader;
+}
+
+GLuint emgl::gl::createProgram(char const *vertexPath, char const *fragmentPath) {
+  // Create shaders
+  GLuint vertexShader = emgl::gl::createShaderFromPath(GL_VERTEX_SHADER, vertexPath);
+  GLuint fragmentShader = emgl::gl::createShaderFromPath(GL_FRAGMENT_SHADER, fragmentPath);
+
+  // Create program
+  GLuint program = glCreateProgram();
+  glAttachShader(program, vertexShader);
+  glAttachShader(program, fragmentShader);
+  glLinkProgram(program);
+
+  // Check for success
+  GLint isCompiled = 0;
+  glGetProgramiv(program, GL_LINK_STATUS, &isCompiled);
+  if (!isCompiled) {
+    GLint maxLength = 1000;
+    glGetShaderiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+    char *message = new char[maxLength];
+    glGetProgramInfoLog(program, maxLength, &maxLength, message);
+    printf("%s\n", message);
+    return 0;
+  }
+
+  return program;
 }
